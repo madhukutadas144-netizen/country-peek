@@ -1,15 +1,19 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
+  --bg: #f5f7fb;
+  --text: #374151;
+  --text-h: #111827;
+  --card-bg: #ffffff;
+  --header-bg: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --button-bg: #ffffff;
+  --button-text: #111827;
+  --border: #e5e7eb;
+  --error: #dc2626;
+  --shadow: rgba(15, 23, 42, 0.08) 0 10px 20px;
   --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --accent: #4f46e5;
+  --accent-bg: rgba(79, 70, 229, 0.1);
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -30,28 +34,29 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+[data-theme='dark'] {
+  --bg: #0f172a;
+  --text: #d1d5db;
+  --text-h: #f8fafc;
+  --card-bg: #111827;
+  --header-bg: #111827;
+  --input-bg: #1f2937;
+  --input-border: #374151;
+  --button-bg: #1f2937;
+  --button-text: #f8fafc;
+  --border: #334155;
+  --error: #fca5a5;
+  --shadow: rgba(0, 0, 0, 0.35) 0 10px 20px;
+  --code-bg: #1f2028;
+  --accent: #818cf8;
+  --accent-bg: rgba(129, 140, 248, 0.15);
 }
 
 body {
   margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 #root {
