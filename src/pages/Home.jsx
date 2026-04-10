@@ -1,41 +1,67 @@
 import { useState, useEffect } from 'react'
 import SearchBar from '../components/SearchBar'
+import CountryCard from '../components/CountryCard'
 
 function Home() {
   const [query, setQuery] = useState('')
   const [countries, setCountries] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    if (query.length < 2) return
+    const trimmedQuery = query.trim()
 
-    fetch(`https://restcountries.com/v3.1/name/${query}`)
-      .then(res => res.json())
-      .then(data => setCountries(data))
-      .catch(err => console.log(err))
+    if (!trimmedQuery) {
+      setCountries([])
+      setError(null)
+      setLoading(false)
+      return
+    }
+
+    const timer = setTimeout(() => {
+      setLoading(true)
+
+      fetch(`https://restcountries.com/v3.1/name/${trimmedQuery}`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('No countries found.')
+          }
+          return res.json()
+        })
+        .then((data) => {
+          setCountries(data)
+          setError(null)
+        })
+        .catch(() => {
+          setCountries([])
+          setError('No countries found.')
+        })
+        .finally(() => setLoading(false))
+    }, 400)
+
+    return () => clearTimeout(timer)
   }, [query])
 
   return (
     <div className="home">
-      {/* Search input */}
       <SearchBar query={query} onQueryChange={setQuery} />
 
-      {/* 👇 PUT YOUR CODE HERE */}
-      {countries.map((country, index) => (
-        <div key={index} style={{
-          border: '1px solid gray',
-          padding: '10px',
-          margin: '10px',
-          borderRadius: '8px'
-        }}>
-          <h3>{country.name.common}</h3>
-          <img 
-            src={country.flags.png} 
-            alt={country.name.common} 
-            width="100"
-          />
-          <p>Region: {country.region}</p>
+      {loading && <p className="home__status">Loading...</p>}
+      {!loading && error && (
+        <p className="home__status home__status--error">{error}</p>
+      )}
+
+      {!loading && !error && countries.length > 0 && (
+        <div className="cards-grid">
+          {countries.map((country) => (
+            <CountryCard key={country.cca3} country={country} />
+          ))}
         </div>
-      ))}
+      )}
+
+      {!loading && !error && countries.length === 0 && !query.trim() && (
+        <p className="home__status">Start searching to explore countries.</p>
+      )}
     </div>
   )
 }
